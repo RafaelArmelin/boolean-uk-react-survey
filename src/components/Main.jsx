@@ -3,12 +3,21 @@ import { useState } from "react";
 function Main() {
   const [open, setOpen] = useState(false); //Ignore this state
   const [radioButtons, setRadioButtons] = useState(false);
-  console.log("State: ", radioButtons);
+  console.log("State Radio Buttons: ", radioButtons);
+
+  const [checkboxes, setCheckboxes] = useState(false);
+  console.log("State Checkboxes: ", checkboxes);
 
   const handleRadioButtons = (event) => {
     console.log("inside handleRadioButtons: ", event.target.checked);
 
     setRadioButtons(event.target.checked);
+  };
+
+  const handleCheckboxes = (event) => {
+    console.log("inside handleCheckboxes: ", event.target.checked);
+
+    setCheckboxes(event.target.checked);
   };
 
   return (
@@ -67,7 +76,52 @@ function Main() {
           </div>
           <div className="form__group">
             <h3>How do you like to spend time with your rubber duck</h3>
-            {/* <!-- checkboxes go here --> */}
+            <ul>
+              <li>
+                <label>
+                  <input
+                    name="spend-time"
+                    type="checkbox"
+                    value="swimming"
+                    onChange={handleCheckboxes}
+                  />
+                  Swimming
+                </label>
+              </li>
+              <li>
+                <label>
+                  <input
+                    name="spend-time"
+                    type="checkbox"
+                    value="bathing"
+                    onChange={handleCheckboxes}
+                  />
+                  Bathing
+                </label>
+              </li>
+              <li>
+                <label>
+                  <input
+                    name="spend-time"
+                    type="checkbox"
+                    value="chatting"
+                    onChange={handleCheckboxes}
+                  />
+                  Chatting
+                </label>
+              </li>
+              <li>
+                <label>
+                  <input
+                    name="spend-time"
+                    type="checkbox"
+                    value="noTime"
+                    onChange={handleCheckboxes}
+                  />
+                  I don't like to spend time with it
+                </label>
+              </li>
+            </ul>
           </div>
           <label>
             What else have you got to say about your rubber duck?
