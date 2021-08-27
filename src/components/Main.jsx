@@ -1,23 +1,44 @@
 import { useState } from "react";
+import Checkboxes from "./Checkboxes";
+import Radios from "./Radios";
 
 function Main() {
   const [open, setOpen] = useState(false); //Ignore this state
-  const [radioButtons, setRadioButtons] = useState(false);
-  console.log("State Radio Buttons: ", radioButtons);
-
-  const [checkboxes, setCheckboxes] = useState(false);
-  console.log("State Checkboxes: ", checkboxes);
+  const [radioButtons, setRadioButtons] = useState(null);
+  const [textArea, setTextArea] = useState("");
+  const [checkboxes, setCheckboxes] = useState({
+    swimming: false,
+    bathing: false,
+    chatting: false,
+    noTime: false,
+  });
+  console.log("State: ", { checkboxes, radioButtons });
 
   const handleRadioButtons = (event) => {
-    console.log("inside handleRadioButtons: ", event.target.checked);
+    console.log("inside handleRadioButtons: ", event.target.value);
 
-    setRadioButtons(event.target.checked);
+    const value = parseInt(event.target.value, 10);
+
+    setRadioButtons(value);
   };
 
   const handleCheckboxes = (event) => {
-    console.log("inside handleCheckboxes: ", event.target.checked);
+    const targetValue = event.target.value;
+    const isChecked = event.target.checked;
 
-    setCheckboxes(event.target.checked);
+    console.log("inside handleCheckboxes: ", targetValue, isChecked);
+
+    const updatedCheckboxes = {
+      ...checkboxes,
+      [targetValue]: isChecked,
+    };
+
+    setCheckboxes(updatedCheckboxes);
+  };
+
+  const handleTextArea = (event) => {
+    console.log("inside handleTextArea: ", event.target.value);
+    setTextArea(event.target.value);
   };
 
   return (
@@ -29,103 +50,23 @@ function Main() {
       <section className="main__form">
         <form className="form">
           <h2>Tell us what you think about your rubber duck!</h2>
-          <div className="form__group radio">
-            <h3>How do you rate your rubber duck colour?</h3>
-            <ul>
-              <li>
-                <input
-                  id="color-one"
-                  type="radio"
-                  name="color"
-                  value="1"
-                  onChange={handleRadioButtons}
-                />
-                <label for="color-one">1</label>
-              </li>
-              <li>
-                <input
-                  id="color-two"
-                  type="radio"
-                  name="color"
-                  value="2"
-                  onChange={handleRadioButtons}
-                />
-                <label for="color-two">2</label>
-              </li>
-              <li>
-                <input
-                  id="color-three"
-                  type="radio"
-                  name="color"
-                  value="3"
-                  onChange={handleRadioButtons}
-                />
-                <label for="color-three">3</label>
-              </li>
-              <li>
-                <input
-                  id="color-four"
-                  type="radio"
-                  name="color"
-                  value="4"
-                  onChange={handleRadioButtons}
-                />
-                <label for="color-four">4</label>
-              </li>
-            </ul>
-          </div>
-          <div className="form__group">
-            <h3>How do you like to spend time with your rubber duck</h3>
-            <ul>
-              <li>
-                <label>
-                  <input
-                    name="spend-time"
-                    type="checkbox"
-                    value="swimming"
-                    onChange={handleCheckboxes}
-                  />
-                  Swimming
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input
-                    name="spend-time"
-                    type="checkbox"
-                    value="bathing"
-                    onChange={handleCheckboxes}
-                  />
-                  Bathing
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input
-                    name="spend-time"
-                    type="checkbox"
-                    value="chatting"
-                    onChange={handleCheckboxes}
-                  />
-                  Chatting
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input
-                    name="spend-time"
-                    type="checkbox"
-                    value="noTime"
-                    onChange={handleCheckboxes}
-                  />
-                  I don't like to spend time with it
-                </label>
-              </li>
-            </ul>
-          </div>
+          <Radios
+            radioButtons={radioButtons}
+            handleRadioButtons={handleRadioButtons}
+          />
+          <Checkboxes
+            checkboxes={Checkboxes}
+            handleCheckboxes={handleCheckboxes}
+          />
           <label>
             What else have you got to say about your rubber duck?
-            <textarea name="review" cols="30" rows="10"></textarea>
+            <textarea
+              name="review"
+              cols="30"
+              rows="10"
+              onChange={handleTextArea}
+              value={textArea}
+            ></textarea>
           </label>
           <label>
             Put your name here (if you feel like it):
